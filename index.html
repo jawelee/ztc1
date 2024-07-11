@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>签到</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link href="../static/css/weixin/base.css?v=2024012401" rel="stylesheet" type="text/css">
+    <script src="../static/js/weixin/jquery.min.js?v=2024012401"></script>
+    <script src="../static/js/md5.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/css.css" rel="stylesheet" type="text/css">
+    <!-- <style>
+        .page { padding: 0; }
+        .page-form { height: 100%; padding: 20px; border-radius: 0; }
+        .page-form .form-top { padding: 20% 0; border: none; }
+        .page-form .form-top .form-item { padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px; }
+        .page-form .form-top .form-item + .form-item { margin-top: 20px; }
+    </style> -->
+    <style>
+        html,
+        body {
+            font-family: "PingFang SC";
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        ul,
+        ol {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .main {
+            background: #fff;
+            border-radius: 8px;
+            width: 100%;
+            height: 60%;
+            padding: 1rem;
+            box-shadow: -5px 0px 5px 0px rgba(0, 0, 0, 0.5)
+        }
+
+
+        .title {
+            /* color: #8d8ebb; */
+            color: #4093dd;
+            font-size: 0.8pc;
+            line-height: 26px;
+            text-align: center;
+        }
+
+        .title h1 {
+            font-weight: bolder;
+            font-size: 0.8pc
+        }
+
+        .sign-head {
+            /* width: 560px; */
+            overflow: hidden;
+            margin: 10px auto;
+        }
+
+        .sign-head .sign-btn {
+            /* width: 100%; */
+            /* border: 1px solid #4093dd; */
+            float: left;
+            color: #fff;
+            font-size: 14px;
+            line-height: 36px;
+            padding: 2px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4093dd;
+            text-align: center;
+        }
+
+        .sign-head .sign-btn.disabled {
+            color: #bbb;
+            background-color: #eee;
+        }
+
+        .sign-foot {
+            /* width: 106px; */
+            overflow: hidden;
+            margin: 10px auto;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sign-foot .reward-btn {
+            /* width: 100%; */
+            /* border: 1px solid #b25d06; */
+            /* float: left; */
+            color: #fff;
+            float: right;
+            font-size: 14px;
+            line-height: 36px;
+            padding: 2px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            /* background-color: #b25d06; */
+            background-color: #4093dd;
+            text-align: center;
+        }
+
+        .sign-foot .reward-btn div:active {
+            background-color: red;
+        }
+
+        .sign-foot .reward-btn.disabled {
+            color: #bbb;
+            background-color: #eee;
+        }
+
+        .sign-head .sign-date {
+            float: right;
+            /* color: #333; */
+            color: #4093dd;
+            font-size: 20px;
+            line-height: 36px;
+            padding: 2px 25px;
+        }
+
+        .sign-box {
+            /* width: 560px; */
+            width: 100%;
+            height: 50px;
+            margin: 10px auto;
+        }
+
+        .mark {
+            /* width: 560px; */
+            width: 100%;
+            margin: 10px auto;
+            color: grey;
+        }
+
+        .sign-box li {
+            float: left;
+            /* width: 14.285%; */
+            width: 13.285%;
+            margin: 0.5%;
+            text-align: center;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            /* border-right: 1px solid #4093dd;
+            border-bottom: 1px solid #4093dd; */
+
+            border: 1px solid #4093dd;
+            box-shadow: -1px 0px 1px 0px ;
+
+            /* transform: rotate(30deg);
+            -ms-transform: rotate(30deg);
+            -webkit-transform: rotate(30deg); */
+        }
+
+        .sign-box ol {
+            /* border-top: 1px solid #ccc; */
+            /* border-left: 1px solid #ccc; */
+        }
+
+        .sign-box ol li {
+            height: 40px;
+            color: #4093dd;
+            font-size: 24px;
+            line-height: 40px;
+        }
+
+        .sign-box ul {
+            /* border-left: 1px solid #4093dd;
+            border-top: 1px solid #4093dd;
+            border: 1px solid #4093dd; */
+            /* box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.5) */
+        }
+
+        .sign-box ul li {
+            height: 80px;
+            /* color: #333; */
+            color: #4093dd;
+            font-size: 20px;
+            /* line-height: 50px; */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* .sign-box ul li .signDate {
+            width: 50px;
+            height: 40px;
+        } */
+
+        .sign-box ul li .signDate {
+            position: relative;
+            width: 2rem;
+            height: 2rem;
+            margin-top: 0.5rem;
+            border-radius: 1rem;
+            background-color: rgba(0, 0, 0, 0.4);
+            /* background-color: grey; */
+            z-index: 5;
+        }
+
+        .sign-box ul li .signDate::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1.5rem;
+            color: black;
+            border-bottom: 3px solid #fff;
+            border-right: 3px solid #fff;
+            left: 50%;
+            top: 30%;
+            transform-origin: center;
+            transform: translate(-50%, -30%) rotate(45deg);
+            -webkit-transform: translate(-50%, -30%) rotate(45deg);
+        }
+
+        .sign-box ul li .hasSignDate {
+            position: relative;
+            width: 2rem;
+            height: 2rem;
+            margin-top: 0.5rem;
+            border-radius: 1rem;
+            /* background-color: rgba(0, 0, 0, 0.4); */
+            background-color: #4093dd;
+            z-index: 5;
+
+        }
+
+
+        .sign-box ul li .hasSignDate::before {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1.5rem;
+            color: black;
+            border-bottom: 3px solid #fff;
+            border-right: 3px solid #fff;
+            left: 50%;
+            top: 30%;
+            transform-origin: center;
+            transform: translate(-50%, -30%) rotate(45deg);
+            -webkit-transform: translate(-50%, -30%) rotate(45deg);
+        }
+
+        .sign-box li.seat {
+            color: #ddd;
+        }
+
+        .sign-box li:active {
+            background-color: #f2f2f2;
+        }
+
+        .sign-box li.current {
+            color: #fff;
+            background-color: #4093dd;
+        }
+
+        /* .sign-box li.checked {
+            color: #999;
+            background-color: #eee;
+        } */
+
+        /* .sign-box li.checked {
+
+            width: 8px;
+
+            height: 16px;
+
+            border-color: #009933;
+
+            border-style: solid;
+
+            border-width: 0 3px 5px 0;
+
+            transform: rotate(45deg);
+
+        } */
+        .sign-box li .checked {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            display: inline-block;
+            font-weight: 700;
+            margin: 0 10px;
+            /* width: 8px; */
+            width: 1rem;
+            height: 2rem;
+            transform: rotate(45deg);
+            border-style: solid;
+            border-color: #4093dd;
+            border-width: 0 4px 4px 0;
+        }
+
+        /* .sign-box li.today {
+            background-color: #4093dd
+        } */
+
+        .integral {
+            /* color: #b25d06; */
+            color: #4093dd;
+            /* color: #4093dd; */
+            font-size: 18px;
+            font-family: KaiTi;
+            line-height: 36px;
+        }
+
+        .footer {
+            background: #fff;
+            width: 100%;
+            height: 35%;
+            padding: 1rem;
+            margin: 1rem auto;
+            border-radius: 8px;
+            box-shadow: -5px 0px 5px 0px rgba(0, 0, 0, 0.5)
+        }
+
+        .qiandao-rule-list {
+            margin-bottom: 35px;
+            /* color: #8d8ebb; */
+            color: #4093dd;
+            font-size: 0.7pc;
+            line-height: 26px
+        }
+
+        .qiandao-rule-list h4 {
+            font-weight: bolder;
+            font-size: 0.7pc
+        }
+    </style>
+    <script src="../static/js/layer.2.0/layer.m.js"></script>
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="logo-wrap">
+
+        </div>
+        <div class="title">
+            <h4>签到领积分</h4>
+            <p>积分可兑换优惠券</p>
+        </div>
+        <div class="sign-head">
+            <span class="sign-btn">立即签到</span>
+            <span class="sign-date">2024-04</span>
+        </div>
+        <div class="sign-box"></div>
+        <!-- <div class="mark">只显示最近七天的签到情况</div> -->
+        <!-- <div class="grandTotal">累计签到：5天</div> -->
+        <div class="sign-foot">
+            <div class="integral">当前积分：6分</div>
+            <div class="reward-btn">积分兑换</div>
+        </div>
+    </div>
+    <div class="footer">
+        <!-- <div class="explanation">
+            规则说明
+        </div> -->
+        <div class="qiandao-rule-list">
+            <h4>签到规则</h4>
+            <p>每次签到获得1个积分，如果中间有一天间断未签到的，重新开始计算连续签到时间。</p>
+            <p>连续签到七天及其以上可以使用7个积分兑换一张优惠券</p>
+            <p>连续签到不满七天的，可以使用10个积分兑换一张优惠券</p>
+        </div>
+    </div>
+
+    <!-- <script src="../static/js/weixin/jquery.min.js"></script> -->
+    <!-- <script src="./js//signInPage.js"></script> -->
+    <!-- <script>
+        document.write("<script src='./js//signInPage.js?t=" + new Date().getTime() + "'><\/script>");
+    </script> -->
+    <script>
+        document.write("<script src='../static/js/js.js?t=" + new Date().getTime() + "'><\/script>",
+            "<script src='./js//signInPage.js?t=" + new Date().getTime() + "'><\/script>")
+    </script>
+    <script>
+        $(function () {
+            $('.sign-box').Sign({
+                signBtn: '.sign-btn',
+                rewardBtn: '.reward-btn',
+                current: '.sign-date',
+                dateChecked: [1, 2, 3, 4, 5, 6, 8]
+            })
+        })
+    </script>
+</body>
+
+</html>
